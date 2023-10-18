@@ -8,6 +8,7 @@ router.get('/',verifyJWT, userController.getAllUsers);
 router.get('/:id',verifyJWT,roleCheck, userController.getUserById);
 router.put('/:id',verifyJWT,roleCheck, userController.updateUser);
 router.delete('/:id',verifyJWT,roleCheck, userController.deleteUser)
+router.put('/do-task/:taskId',verifyJWT, userController.doTask);
 
 
 module.exports = router;

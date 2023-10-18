@@ -50,6 +50,7 @@ app.get('/',(req,res)=>{
 app.use('/api/auth', require('./Routes/auth.route'));
 app.use('/api/task', require('./Routes/task.route'));
 app.use('/api/users', require('./Routes/users.route'));
+app.use('api/vip', require('./Routes/vip.route'))
 app.use('/api/payment', require('./Routes/payment.route'));
 // app.use('/api/auth', require('./routes/auth'));
 // app.use('/api/refresh', require('./routes/refresh'));

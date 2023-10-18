@@ -19,12 +19,20 @@ const userSchema = new schema({
         type:Number,
         default:0.00
     },
+    taskCompleted:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Task'
+    }],
     referer:{
         type:String,
         required:false
     },
-    vip:{
+    referer_two:{
         type:String,
+        required:false
+    },
+    vip:{
+        type:mongoose.Schema.Types.ObjectId,
         default:null
     },
     referral_code:{

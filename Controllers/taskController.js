@@ -27,7 +27,7 @@ const getAllTasks = async (req,res)=>{
 }
 
 const getTask = async (req,res)=>{
-    const tasks = await taskService.getRandomTask(3);
+    const tasks = await taskService.getRandomTask(10);
     if(!tasks){
         return res.status(500).json({msg:'Error getting tasks'});
     }

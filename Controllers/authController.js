@@ -2,15 +2,24 @@ const Users = require('../Models/userModel');
 const authService = require("../Services/authService");
 const userService = require('../Services/userServices');
 const { referrerCode } = require('../Services/userServices');
+const userServices = require('../Services/userServices');
 const emailService = require('../Services/emailService');
 
 
 const register = async (req,res)=>{
-    const {username,password,email,referer}= req.body;
+    const {username,password,email,referer_code}= req.body;
     if(!username||!password||!email){
         return res.status(400).json({
             status:'error',
-            msg:'Username, password and email are required'})
+            msg:'Username, password and email are required'});
+    }
+    let referer 
+    let upline
+    if(referer_code){
+        referer= userServices.getReferer(referer_code);
+        if(referer){
+            refererUpline = userService.getSecondUpliner(referer);
+        }
     }
     const refCode = referrerCode(username);
     const userObj ={
@@ -18,6 +27,7 @@ const register = async (req,res)=>{
         password:password,
         email:email,
         referer:referer? referer:null,
+        referer_two: refererUpline? refererUpline:null,
         referral_code:refCode
     };
     const newUser = await authService.register(userObj);
