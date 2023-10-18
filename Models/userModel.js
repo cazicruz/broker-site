@@ -35,7 +35,11 @@ const userSchema = new schema({
       },
     otp_date:{
         type:Date,
-      },
+    },
+    isAdmin:{
+        type:Boolean,
+        default:false
+    },
     suspended: {
         type:Boolean,
         default:false

@@ -71,8 +71,6 @@ const verifyToken = async (token, secrete) => {
       return id;
     }
 
-    
-
 
 
  const authService = {

@@ -12,6 +12,11 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const connectDB = require('./Config/dbConfig');
 const PORT = process.env.PORT || 3500;
+const multer = require('multer');
+const {multerConfig} = require('./Config/multerConfig');
+
+//multer config
+const upload = multer({storage: multerConfig});
 
 // Connect to MongoDB
 connectDB();
@@ -36,7 +41,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 //serve static files
-app.use('/', express.static(path.join(__dirname, '/public')));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // routes
 app.get('/',(req,res)=>{
@@ -44,6 +49,8 @@ app.get('/',(req,res)=>{
 });
 app.use('/api/auth', require('./Routes/auth.route'));
 app.use('/api/task', require('./Routes/task.route'));
+app.use('/api/users', require('./Routes/users.route'));
+app.use('/api/payment', require('./Routes/payment.route'));
 // app.use('/api/auth', require('./routes/auth'));
 // app.use('/api/refresh', require('./routes/refresh'));
 // app.use('/api/logout', require('./routes/logout'));
