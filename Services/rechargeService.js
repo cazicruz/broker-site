@@ -23,5 +23,6 @@ const getRechargeById = async ()=>{
 
 const rechargeService = {
     createRecharge,
+    getRechargeById,
 }
 module.exports = rechargeService;

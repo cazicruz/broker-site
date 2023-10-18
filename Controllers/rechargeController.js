@@ -1,25 +1,35 @@
 const Recharge = require('../Models/rechargeModel');
 const Users = require('../Models/userModel');
+const emailService = require('../Services/emailService');
 
 
 
 const accountRecharge = async (req, res) => {
     const { amount, receiverId,transaction } = req.body;
+    const file = req.file;
+    console.log(file)
+    if(!file){
+        return res.status(400).json({msg:'screenshot is required'});
+    }
     if (!amount || !receiverId || !transaction) {
-        res.status(400).json({ msg: 'All fields are required' });
+        return res.status(400).json({ msg: 'All fields are required' });
     }
     const rechargeObj = {
         amount: amount,
         senderId: req.userId,
         transaction: transaction,
-        screenshot: req.file.path
+        screenshot: file.path
         
     }
     const recharge = await rechargeService.createRecharge(rechargeObj);
     if (!recharge) {
-        res.status(500).json({ msg: 'Error recharging account' });
+        return res.status(500).json({ msg: 'Error recharging account' });
     }
-    res.status(200).json({
+    const mailRes = await emailService.sendDepositRequest(rechargeObj, file);
+    if(!mailRes){
+        return res.status(500).json({msg:'Error sending mail'});
+    }
+    return res.status(200).json({
         msg: 'Recharge would be confirmed soon and status updated',
         recharge: recharge
     });
@@ -28,16 +38,16 @@ const accountRecharge = async (req, res) => {
 const getRecharge = async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        res.status(400).json({ msg: 'missing route parameter ID' });
+        return res.status(400).json({ msg: 'missing route parameter ID' });
     }
     if (id && req.role !== 'admin') {
-        res.status(400).json({ msg: 'You cannot view this recharge' });
+        return res.status(400).json({ msg: 'You cannot view this recharge' });
     }
     const recharge = await rechargeService.getRechargeById(id);
     if (!recharge) {
-        res.status(500).json({ msg: 'Error getting recharge' });
+        return res.status(500).json({ msg: 'Error getting recharge' });
     }
-    res.status(200).json({
+    return res.status(200).json({
         msg: 'Recharge retrieved successfully',
         recharge: recharge
     })
