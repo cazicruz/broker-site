@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 
 
 
-exports.createWithdrawal = async (req, res) => {
+const createWithdrawal = async (req, res) => {
     const { amount, receiverAddress, password} = req.body;
     const userId = req.userId;
     if (!amount || !receiverAddress || !password) {

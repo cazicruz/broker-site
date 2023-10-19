@@ -11,7 +11,7 @@ const roleCheck = async (req, res, next)=>{
             req.role = 'admin';
         }
         else{
-            req.role = user;
+            req.role = 'user';
         }
         next();
     }catch(err){
