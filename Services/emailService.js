@@ -96,27 +96,30 @@ const sendWithdrawalRequest = ( email=null,withdrawalObj ) => {
 
 
 //sending mail to admin with deposit details
-const sendDepositRequest = ( email=null,depositObj,file ) => {
-    const mailer = nodemailer;
-    mailer.SMTP = {
+const sendDepositRequest = (depositObj,file, email=null ) => {
+    // Create a transporter using your email service details
+    const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
-        use_authentication: true,
-        user: process.env.MY_EMAIL,
-        pass: process.env.MY_EMAIL_PASS
-    };
+        auth: {
+            user: process.env.MY_EMAIL,
+            pass: process.env.MY_EMAIL_PASS,
+        },
+    });
+
+    // Define the email message
     const message = {
-        sender: process.env.MY_EMAIL,
-        to: process.env.ADMIN_MAIL ?? email,
+        from: process.env.MY_EMAIL,
+        to: process.env.ADMIN_MAIL || email, // Use || to provide a fallback email
         subject: 'Deposit Request',
         html: `<!DOCTYPE html>
         <html>
           <head>
-            <title> ${process.env.NAME_OF_APP} OTP Email</title>
+            <title>${process.env.NAME_OF_APP} OTP Email</title>
           </head>
           <body>
-            <h2 style="align-text:center; background:fff"> here is your otp. Do not share this code</h2>
-            <h1>Dear Admin a new withdrawal has been initiated with details:</h1>
+            <h2 style="align-text:center; background:fff"> Urgent!!!! </h2>
+            <h1>Dear Admin, a new Deposit has been initiated with details:</h1>
             <h2>Amount: ${depositObj.amount}</h2>
             <h2>Sender Address: ${depositObj.senderAddress}</h2>
             <h2>Sender Id: ${depositObj.senderId}</h2>
@@ -127,19 +130,27 @@ const sendDepositRequest = ( email=null,depositObj,file ) => {
             {
                 filename: file.filename,
                 path: file.path,
-                cid:file.filename,
-            }
-        ]
-
+                cid: file.filename,
+            },
+        ],
     };
-    const resultRes = mailer.sendmail(message, function(err, result) {
-        if(err) {
-            console.log(err);
-        }
-        return result;
-    });
-    if(!resultRes){ return null}
-    return resultRes;
+
+    // Send the email
+    try{
+        transporter.sendMail(message, (err, info) => {
+            if (err) {
+                console.error(err);
+                // Handle the error if needed
+            } else {
+                console.log('Email sent: ' + info.response);
+                // You can also handle success if needed
+            }
+        });
+        return (depositObj);
+    }catch(err){
+        console.log("error sending deposit data to admin", err);
+        return;
+    }
 }
 
 const emailService = {

@@ -77,55 +77,43 @@ const getSecondUpliner = async(username)=>{
     }
 }
 const doTask = async (userId, taskId)=>{
-    const  session = await mongoose.startSession();
-    session.startTransaction();
+    
     try{
-        const user = await Users.findById(userId).session(session).exec();
-        const task = await Tasks.findById(taskId).session(session).exec();
+        const user = await Users.findById({_id:userId}).exec();
+        const task = await Tasks.findById({_id:taskId}).exec();
         if(!user){
-            await session.abortTransaction();
-            session.endSession();
             // user not found
             return 1;
         }
         if(!task){
-            await session.abortTransaction();
-            session.endSession();
             // task not found
             return 2;
         }
         if(user.taskCompleted.includes(taskId)){
-            await session.abortTransaction();
-            session.endSession();
             // task already completed
             return 3;
         }
         if (user.balance < task.amount){
-            await session.abortTransaction();
-            session.endSession();
             // insufficient balance
             return 4;
         }
 // start transaction
         user.taskCompleted.push(taskId);
-        user.balance += (task.amount * 10)/100;
+        user.balance += (parseInt(task.amount) * 10)/100;
         user.save();
-        await session.commitTransaction();
-        session.endSession();
+
         // task completed
-        return user;
+        return task;
 
     }catch(err){
         console.log(err);
-        await session.abortTransaction();
-        session.endSession();
         return null;
     }
 }
 
 const fundReferal = async (refererId,rateInPercent, amount)=>{
     try{
-        const referer = await Users.findById(refererId).exec();
+        const referer = await Users.findById({_id:refererId}).exec();
         if(!referer){
             return 1;
         }

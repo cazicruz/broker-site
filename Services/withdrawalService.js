@@ -1,5 +1,5 @@
 const Withdrawal = require('../Models/withdrawalModel');
-const User = require('../Models/userModel');
+const Users = require('../Models/userModel');
 const mongoose = require('mongoose');
 
 
