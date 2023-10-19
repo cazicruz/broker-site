@@ -11,15 +11,18 @@ const getVipLevels = async (req,res)=>{
 const updateVipLevels = async (req,res)=>{
     const {id} = req.params;
     const {name, amount} = req.body;
+    if(!id){
+        return res.status(400).json({msg:'path parameter Id is required'});
+    }
     if(req.role !== 'admin'){
         return res.status(400).json({msg:'You cannot update vip level'});
     }
     if (!name && !amount){
         return res.status(400).json({msg:'Name or amount is required'});
     }
-    let updateObj 
-    if (name) updateObj.name = name;
-    if (amount) updateObj.amount = amount;
+    let updateObj ={}
+    if (name) updateObj.level_name = name;
+    if (amount) updateObj.level_fee = amount;
 
     const vipLevel = await vipService.updateVipLevels(id,updateObj);
     if(!vipLevel){
@@ -44,7 +47,10 @@ const createVipLevels = async (req,res)=>{
     if(!name || !amount){
         return res.status(400).json({msg:'Name and amount are required'});
     }
-    const vipLevel = await vipService.createVipLevels({name,amount});
+    const vipLevel = await vipService.createVipLevels({level_name:name,level_fee:amount});
+    if(vipLevel === 1){
+        return res.status(400).json({msg:'Vip level with name already exists'});
+    }
     if (!vipLevel){
         return res.status(500).json({msg:'Error creating vip level'});
     }

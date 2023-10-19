@@ -8,8 +8,8 @@ router.get('/random',verifyJWT, taskController.getTask);
 
 router.post('/',verifyJWT, taskController.createTask );
 
-router.put('/',verifyJWT, taskController.updateTask);
+router.put('/:id',verifyJWT, taskController.updateTask);
 
-router.delete('/',verifyJWT, taskController.deleteTask);
+router.delete('/:id',verifyJWT, taskController.deleteTask);
 
 module.exports= router;

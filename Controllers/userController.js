@@ -18,6 +18,9 @@ const getUser = async (req, res)=>{
         return res.status(400).json({msg:'missing route parameter ID'});
     }
     const user = await userService.getUserById(id);
+    if(user===1){
+        return res.status(400).json({msg:'User not found'});
+    }
     if (!user){
         return res.status(500).json({msg:'Error getting user'});
     }
@@ -30,6 +33,9 @@ const getUser = async (req, res)=>{
 const updateUser = async (req, res)=>{
     const {id} = req.params;
     const {username, email} = req.body;
+    if(req.userId !==id && req.role !== 'admin'){
+        return res.status(400).json({msg:'You cannot update this user'});
+    }
     if(!id){
         return res.status(400).json({msg:'missing route parameter ID'});
     }
@@ -73,11 +79,11 @@ const doTask = async (req,res)=>{
     if(!taskId){
         return res.status(400).json({msg:'missing route parameter ID'});
     }
-    const user = getUserById(userId);
+    const user = userService.getUserById(userId);
     if (!user){
         return res.status(500).json({msg:'Error getting user'});
     }
-    const dotask = await userService.doTask(userId,user.referer,user.referer_two, taskId);
+    const dotask = await userService.doTask(userId, taskId);
     if (!dotask){
         return res.status(500).json({msg:'Error doing task'});
     }

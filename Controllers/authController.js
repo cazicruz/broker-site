@@ -4,6 +4,7 @@ const userService = require('../Services/userServices');
 const { referrerCode } = require('../Services/userServices');
 const userServices = require('../Services/userServices');
 const emailService = require('../Services/emailService');
+const bcrypt = require('bcrypt');
 
 
 const register = async (req,res)=>{
@@ -14,7 +15,7 @@ const register = async (req,res)=>{
             msg:'Username, password and email are required'});
     }
     let referer 
-    let upline
+    let refererUpline
     if(referer_code){
         referer= userServices.getReferer(referer_code);
         if(referer){
@@ -61,7 +62,7 @@ const tokenRefresh = async (req,res)=> {
     try{
         // verifies if the token is valid and gets the payload
         const userId = await authService.verifyToken(refreshToken,process.env.REFRESH_TOKEN_SECRET);
-        console.log(userId);
+
         if (!userId){
             return res.status(500).send('try again later or login');
         }
@@ -71,7 +72,7 @@ const tokenRefresh = async (req,res)=> {
         if(!user){
             return res.status(401).send('Access denied, token invalid');
         }
-        console.log(user);
+
         const token = authService.generateToken({_id:user.id});
         // save the refresh token in database
         const error = await authService.updateUserWithToken(userId,token.refreshToken);
@@ -97,6 +98,7 @@ const forgotPass = async (req,res)=>{
         return res.status(400).send('User not found')
     }
     const otp = emailService.sendOTP(user.username,user.email);
+    console.log(otp)
     if(!otp){
         return res.status(500).send('Error sending OTP')
     }

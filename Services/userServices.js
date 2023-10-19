@@ -1,4 +1,6 @@
 const Users = require("../Models/userModel");
+const mongoose = require('mongoose');
+const Tasks = require('../Models/taskModel');
 
 
 
@@ -23,6 +25,9 @@ const findUserByEmail = async (email)=>{
 const getUserById = async (id)=>{
     try {
         const user = await Users.findById(id).exec();
+        if(!user){
+            return 1;
+        }
         return user;
     } catch (err) {
         console.log(err);
@@ -30,9 +35,9 @@ const getUserById = async (id)=>{
     }
 }
 
-const updateUser = async (id, updateObj)=>{
+const updateUser = async (_id, updateObj)=>{
     try{
-        const user = await Users.findByIdAndUpdate({id}, updateObj, {new:true}).exec();
+        const user = await Users.findByIdAndUpdate({_id}, updateObj, {new:true}).exec();
         return user;
     }catch(err){
         console.log(err);
@@ -108,7 +113,7 @@ const doTask = async (userId, taskId)=>{
         await session.commitTransaction();
         session.endSession();
         // task completed
-        return task;
+        return user;
 
     }catch(err){
         console.log(err);

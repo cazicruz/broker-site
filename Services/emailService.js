@@ -30,17 +30,21 @@ const sendOTP = (username, email) => {
         </html>
         `
     };
-    const resultRes = transport.sendMail(mail_config, (err, result) =>{
-        if (err){
-            console.log("error sending otp", err);
-            return;
-        }
-        console.log('Email sent successfully', result.response);
-        return result
-    });
-    if(resultRes){
-        return (otp);
+    try{
+        transport.sendMail(mail_config, (err, result) =>{
+            if (err){
+                console.log("error sending otp", err);
+                return;
+            }
+            console.log('Email sent successfully', result.response);
+            
+        });
+        return otp;
+    }catch(err){
+        console.log("error sending otp", err);
+        return;
     }
+    
 };
 
 
@@ -74,15 +78,20 @@ const sendWithdrawalRequest = ( email=null,withdrawalObj ) => {
         </html>
         `
     };
-    transport.sendMail(mail_config, (err, result) =>{
-        if (err){
-            console.log("error sending withdrawal data to admin", err);
-            return;
-        }
-        console.log('Email sent successfully', result.response);
-        //return result
-    });
-    return (withdrawalObj);
+    try{
+        transport.sendMail(mail_config, (err, result) =>{
+            if (err){
+                console.log("error sending withdrawal data to admin", err);
+                return;
+            }
+            console.log('Email sent successfully', result.response);
+            //return result
+        });
+        return (withdrawalObj);
+    }catch(err){
+        console.log("error sending withdrawal data to admin", err);
+        return;
+    }
 }
 
 

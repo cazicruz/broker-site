@@ -45,11 +45,11 @@ const updateUserWithToken = async (id, refreshToken) => {
 const generateToken = (user) => {
     // generate access token
     const accessToken = jwt.sign({UserInfo:{ id: user._id }}, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '30'
+        expiresIn: '1d'
     });
     // generate refresh token
     const refreshToken = jwt.sign({UserInfo:{ id: user._id }}, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: '1d'
+        expiresIn: '3d'
     })
     return { accessToken, refreshToken } 
 }

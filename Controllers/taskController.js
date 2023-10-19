@@ -43,18 +43,16 @@ const updateTask = async (req,res)=>{
     if (!name && !amount){
         return res.status(400).json({msg:'Name or amount is required'});
     }
-    const updateObj = {
-        name:name?name:null,
-        amount:amount?amount:null
-    }
+    let updateObj = {}
+    if(name) updateObj.name = name;
+    if(amount) updateObj.amount = amount;
+
     const task = await taskService.updateTask(id,updateObj);
     if(!task){
         return res.status(500).json({msg:'Error updating task'});
     }
+    
     if(task===1){
-        return res.status(400).json({msg:'Name or amount is required'});
-    }
-    if(task===2){
         return res.status(400).json({msg:'Task with name already exists'});
     }
     return res.status(200).json({

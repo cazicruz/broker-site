@@ -9,7 +9,7 @@ const verifyJWT = (req, res, next) => {
         //res.send("We need a token");
         res.status(401).send('Access denied, token missing');
     } else {
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
             if (err) {
                 res.status(401).send('Access denied, token invalid');
             } else {

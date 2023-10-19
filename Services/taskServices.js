@@ -24,7 +24,6 @@ const getAllTasks = async ()=>{
 const getRandomTask = async (size)=>{
     try {
         const task = await Task.aggregate([{$sample:{size:size}}]);
-        console.log(task);
         return task;
     } catch (err) {
         console.log(err);
@@ -32,32 +31,39 @@ const getRandomTask = async (size)=>{
     }
 }
 
-const updateTask = async (id, updateObj)=>{
+const updateTask = async (_id, updateObj)=>{
     const {name, amount} = updateObj;
     if(!name && !amount){
         return 1;
     }
     try{
-        if(name && amount){
-            oldTask = await Task.findOne({id}).exec();
-            if(oldTask){
-                return 2;
-            }
-            const task = await Task.findOneAndUpdate({id},{updateObj},{new:true}).exec();
-            return task;
+        nameExist = await Task.findOne({name:updateObj.name}).exec();
+        if(nameExist){
+            return 1;
         }
-        if (name && !amount){
-            oldTask = await Task.findOne({id}).exec();
-            if(oldTask){
-                return 2;
-            }
-            const task = await Task.findOneAndUpdate({id},{name:name},{new:true}).exec();
-            return task;
-        }
-        if (!name && amount){
-            const task = await Task.findOneAndUpdate({id},{amount:amount},{new:true}).exec();
-            return task;
-        }
+        const task = await Task.findOneAndUpdate({_id},{updateObj},{new:true}).exec();
+        return task;
+            
+        // if(name && amount){
+        //     oldTask = await Task.findOne({id}).exec();
+        //     if(oldTask){
+        //         return 2;
+        //     }
+        //     const task = await Task.findOneAndUpdate({id},{updateObj},{new:true}).exec();
+        //     return task;
+        // }
+        // if (name && !amount){
+        //     oldTask = await Task.findOne({id}).exec();
+        //     if(oldTask){
+        //         return 2;
+        //     }
+        //     const task = await Task.findOneAndUpdate({id},{name:name},{new:true}).exec();
+        //     return task;
+        // }
+        // if (!name && amount){
+        //     const task = await Task.findOneAndUpdate({id},{amount:amount},{new:true}).exec();
+        //     return task;
+        // }
     }catch(err){
         console.log(err);
         return null;

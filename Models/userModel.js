@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
+const VipLevel = require('./vipLevelModel');
+const Task = require('./taskModel')
 
 const userSchema = new schema({
     username : {
@@ -17,7 +19,7 @@ const userSchema = new schema({
     },
     balance:{
         type:Number,
-        default:0.00
+        default:0
     },
     taskCompleted:[{
         type:mongoose.Schema.Types.ObjectId,
@@ -33,6 +35,7 @@ const userSchema = new schema({
     },
     vip:{
         type:mongoose.Schema.Types.ObjectId,
+        ref:'VipLevel',
         default:null
     },
     referral_code:{

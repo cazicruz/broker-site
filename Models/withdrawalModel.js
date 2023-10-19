@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Users = require('./userModel');
 const schema = mongoose.Schema
 
 
@@ -9,7 +10,7 @@ withdrawalSchema = new schema({
     },
     receiverId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        ref:'Users',
         required:true
     },
     receiverAddress:{
