@@ -11,5 +11,6 @@ router.post('/',verifyJWT, taskController.createTask );
 router.put('/:id',verifyJWT, taskController.updateTask);
 
 router.delete('/:id',verifyJWT, taskController.deleteTask);
+router.put('/assign/:userId',   taskController.assignUserTask);
 
 module.exports= router;

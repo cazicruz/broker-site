@@ -1,4 +1,5 @@
 const Task = require('../Models/taskModel');
+const Users= require('../Models/userModel')
 
 
 const createTask = async (name, amount)=>{
@@ -84,12 +85,44 @@ const deleteTask = async (id)=>{
     }
 }
 
+const assignTasksToUser = async (userId, taskIds)=>{
+    try{
+        const user = await Users.findById(userId).exec();
+        if(!user){
+            return 1;
+        }
+        const tasks = await Task.find({_id:{$in:taskIds}}).exec();
+        if(tasks.length !== taskIds.length){
+            return 2;
+        }
+        if(checkTimeDifference(user.taskAssigned.dateAssigned) < 1){
+            return 3;
+        }
+        user.taskAssigned.taskIds=taskIds;
+        user.taskAssigned.dateAssigned = Date.now();
+        user.save();
+        return user;
+    }catch(err){
+        console.log(err);
+        return null;
+    }
+}
+
+const checkTimeDifference = (dateAssigned)=>{
+    const date1 = new Date(dateAssigned);
+    const date2 = new Date(Date.now());
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+}
+
 const taskService ={
     createTask,
     getAllTasks,
     getRandomTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    assignTasksToUser
 }
 
 module.exports = taskService;

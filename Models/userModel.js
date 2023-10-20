@@ -21,6 +21,16 @@ const userSchema = new schema({
         type:Number,
         default:0
     },
+    taskAssigned:{
+        taskIds:[{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Task'
+        }],
+        dateAssigned:{
+            type:Date,
+            default:Date.now()
+        },
+    },
     taskCompleted:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Task'
