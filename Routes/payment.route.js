@@ -15,6 +15,7 @@ router.post('/recharge',verifyJWT,upload.single('newFile'), rechargeController.a
 router.get('/recharge',verifyJWT,roleCheck, rechargeController.getRecharge);
 router.post('/withdraw',verifyJWT, withdrawalController.createWithdrawal);
 router.get('/withdraw/:id',verifyJWT,roleCheck, withdrawalController.getWithdrawal);
+router.put('/withdraw/:id', verifyJWT,roleCheck, withdrawalController.updateWithdrawal);
 
 
 module.exports = router;

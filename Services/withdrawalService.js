@@ -48,16 +48,16 @@ const getWithdrawalById = async (id) => {
     }
 }
 
-const updateWithdrawal = async (id, status) => {
+const updateWithdrawal = async (_id, status) => {
     try{
-        const withdrawal = Withdrawal.findById(id).exec();
+        const withdrawal = await Withdrawal.findById({_id}).exec();
         if(!withdrawal){
             return 1;
         }
         if(withdrawal.status === status){
             return 2;
         }
-        withdrawal.status = status;
+        withdrawal.isCompleted = status === 'true';
         await withdrawal.save();
         return withdrawal;
     }catch(err){
