@@ -274,3 +274,10 @@
 20231019	21:29:47	a263200e-db70-4d27-90e7-ff10d0f6f8ef	POST	undefined	/api/payment/recharge
 20231019	21:35:56	5e3858d5-a9c6-483d-8f7e-8c142c36e2c8	POST	undefined	/api/payment/recharge
 20231019	21:41:17	271cbdf3-8f51-47c7-8b43-1695b199e6bf	POST	undefined	/api/payment/recharge
+20231020	08:37:32	43d30440-1637-4a0f-ad9d-a1bc72e5cf4b	POST	undefined	/api/payment/withdraw
+20231020	08:38:09	b52e6188-105d-43ca-83ef-4e192c3a2a5d	POST	undefined	/api/payment/recharge
+20231020	09:07:40	c62965ee-b8e7-4863-90ec-f1ce4ebc21e1	POST	undefined	/api/payment/recharge
+20231020	09:07:52	bcfdbfda-83fe-4fba-9bb4-139fa454f6c0	POST	undefined	/api/payment/withdraw
+20231020	09:13:19	5437bcce-1dca-4837-b7b4-6ff0e6fc32e4	POST	undefined	/api/payment/withdraw
+20231020	09:14:28	c9cbc34b-d6ff-47ae-be57-1699aaf2c576	POST	undefined	/api/payment/withdraw
+20231020	09:19:47	9dd2cf28-713d-4a0b-bf16-5dd38a65a5da	POST	undefined	/api/payment/withdraw

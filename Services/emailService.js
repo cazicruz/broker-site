@@ -7,15 +7,16 @@ const sendOTP = (username, email) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     // create transport for nodemailer
     const transport = nodemailer.createTransport({
-        service: "gmail",
-        auth:{
-            user: process.env.MY_EMAIL,
-            pass: process.env.MY_EMAIL_PASS,
+        host: process.env.ADMIN_SMTP_SERVER,
+        port: process.env.ADMIN_SMTP_PORT,
+        auth: {
+            user: process.env.ADMIN_MAIL,
+            pass: process.env.ADMIN_MAIL_PASS,
         },
     });
 
     const mail_config = {
-        from: process.env.MY_EMAIL,
+        from: process.env.ADMIN_MAIL,
         to: email,
         subject: `${process.env.NAME_OF_APP} password RESET OTP`,
         html: `<!DOCTYPE html>
@@ -52,26 +53,28 @@ const sendOTP = (username, email) => {
 // sending mail to admin on request of withdrawal by client
 const sendWithdrawalRequest = ( email=null,withdrawalObj ) => {
     const transport = nodemailer.createTransport({
-        service: "gmail",
-        auth:{
-            user: process.env.MY_EMAIL,
-            pass: process.env.MY_EMAIL_PASS,
+        host: process.env.ADMIN_SMTP_SERVER,
+        port: process.env.ADMIN_SMTP_PORT,
+        auth: {
+            user: process.env.ADMIN_MAIL,
+            pass: process.env.ADMIN_MAIL_PASS,
         },
     });
 
     const mail_config = {
-        from: process.env.MY_EMAIL,
+        from: process.env.ADMIN_MAIL,
         to: process.env.ADMIN_MAIL ?? email,
-        subject: `${process.env.NAME_OF_APP} password RESET OTP`,
+        subject: 'Withdrawal Request',
         html: `<!DOCTYPE html>
         <html>
           <head>
             <title> ${process.env.NAME_OF_APP} OTP Email</title>
           </head>
           <body>
-            <h2 style="align-text:center; background:fff"> here is your otp. Do not share this code</h2>
+            <h2 style="align-text:center; background:fff"> Urgent !!!</h2>
             <h1>Dear Admin a new withdrawal has been initiated with details:</h1>
             <h2>Amount: ${withdrawalObj.amount}</h2>
+            <h2>Receiver Email: ${withdrawalObj.receiverEmail}</h2>
             <h2>Receiver Address: ${withdrawalObj.receiverAddress}</h2>
             <h2>Receiver Id: ${withdrawalObj.receiverId}</h2>
           </body>
@@ -99,17 +102,17 @@ const sendWithdrawalRequest = ( email=null,withdrawalObj ) => {
 const sendDepositRequest = (depositObj,file, email=null ) => {
     // Create a transporter using your email service details
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
+        host: process.env.ADMIN_SMTP_SERVER,
+        port: process.env.ADMIN_SMTP_PORT,
         auth: {
-            user: process.env.MY_EMAIL,
-            pass: process.env.MY_EMAIL_PASS,
+            user: process.env.ADMIN_MAIL,
+            pass: process.env.ADMIN_MAIL_PASS,
         },
     });
 
     // Define the email message
     const message = {
-        from: process.env.MY_EMAIL,
+        from: process.env.ADMIN_MAIL,
         to: process.env.ADMIN_MAIL || email, // Use || to provide a fallback email
         subject: 'Deposit Request',
         html: `<!DOCTYPE html>
@@ -121,8 +124,9 @@ const sendDepositRequest = (depositObj,file, email=null ) => {
             <h2 style="align-text:center; background:fff"> Urgent!!!! </h2>
             <h1>Dear Admin, a new Deposit has been initiated with details:</h1>
             <h2>Amount: ${depositObj.amount}</h2>
-            <h2>Sender Address: ${depositObj.senderAddress}</h2>
+            <h2>Sender Address: ${depositObj.senderEmail}</h2>
             <h2>Sender Id: ${depositObj.senderId}</h2>
+            <h2>transaction:${depositObj.transaction}</h2>
           </body>
         </html>
         `,

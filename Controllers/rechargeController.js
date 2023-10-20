@@ -15,9 +15,11 @@ const accountRecharge = async (req, res) => {
     if (!amount || !receiverId || !transaction) {
         return res.status(400).json({ msg: 'All fields are required' });
     }
+    const user = await Users.findById({_id:receiverId}).exec()
     const rechargeObj = {
         amount: amount,
         senderId: req.userId,
+        senderEmail:user.email? user.email: null,
         transaction: transaction,
         screenshot: file.path
         

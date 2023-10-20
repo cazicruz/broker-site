@@ -1,5 +1,5 @@
 const Withdrawal = require('../Models/withdrawalModel');
-const User = require('../Models/userModel');
+const Users = require('../Models/userModel');
 const withdrawalService = require('../Services/withdrawalService')
 const userService = require('../Services/userServices')
 const {sendWithdrawalRequest} = require('../Services/emailService')
@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 const createWithdrawal = async (req, res) => {
     const { amount, receiverAddress, password} = req.body;
     const userId = req.userId;
-    console.log(userId);
+
     if (!amount || !receiverAddress || !password) {
         return res.status(400).json({ msg: 'Please enter all fields' });
     }
@@ -21,7 +21,6 @@ const createWithdrawal = async (req, res) => {
     if (!user) {
         return res.status(400).json({ msg: 'server error' });
     }
-    console.log(password, user.password)
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         return res.status(400).json({ msg: 'Invalid credentials' });
@@ -32,7 +31,8 @@ const createWithdrawal = async (req, res) => {
     const withdrawalObj = {
         amount: amount,
         receiverAddress: receiverAddress,
-        receiverId: userId
+        receiverId: userId,
+        receiverEmail:user.email,
     };
     const withdrawal = await withdrawalService.createWithdrawal(withdrawalObj);
     if (!withdrawal) {
