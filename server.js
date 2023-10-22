@@ -17,8 +17,6 @@ const {multerConfig} = require('./Config/multerConfig');
 const ApiError = require('./Utils/apiError');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc')
-const swaggerDocument = require('./docs/swagger.json');
-
 //multer config
 const upload = multer({storage: multerConfig});
 
