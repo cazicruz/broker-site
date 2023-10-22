@@ -11,7 +11,7 @@ const createRecharge = async (rechargeObj)=>{
     }
 }
 
-const getRechargeById = async ()=>{
+const getRechargeById = async (id)=>{
     try {
         const recharge = await Recharge.findById(id).exec();
         return recharge;

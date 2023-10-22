@@ -46,7 +46,7 @@ const createVipLevels = async (vipObj)=>{
 const deleteVipLevels = async (id)=>{
     try{
         const vipLevel = await VipLevel.findByIdAndDelete(id).exec();
-        return vipLevel;
+        return vipLevel?vipLevel:null;
     }catch(err){
         console.log(err);
         return null;
@@ -66,7 +66,7 @@ const updateUserVipLevel = async (userId, vipLevelId)=>{
             //user or vip level does not exist
             return 1;
         }
-        if(userExist.vip.toString() === vipLevelId.toString()){
+        if(userExist.vip?.toString() === vipLevelId.toString()){
             await session.abortTransaction();
             session.endSession();
             //user already a member of this vip level

@@ -67,7 +67,7 @@ const deleteVipLevels = async (req,res)=>{
     }
     const vipLevel = await vipService.deleteVipLevels(id);
     if(!vipLevel){
-        return res.status(500).json({msg:'Error deleting vip level'});
+        return res.status(404).json({msg:'vip level does not exist'});
     }
     return res.status(200).json({
         msg:'Vip level deleted successfully',

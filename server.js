@@ -15,10 +15,40 @@ const PORT = process.env.PORT || 3500;
 const multer = require('multer');
 const {multerConfig} = require('./Config/multerConfig');
 const ApiError = require('./Utils/apiError');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerDocument = require('./docs/swagger.json');
 
 //multer config
 const upload = multer({storage: multerConfig});
 
+const options={
+    definition:{
+        openapi:'3.0.0',
+        info:{
+            title:'Task MLM Api',
+            version:'1.0.0',
+            description:'Task MLM Api'
+        },
+        servers:[
+            {
+                url:'http://localhost:3001/api'
+            }
+        ],
+        components: {
+            securitySchemes: {
+                ApiKeyAuth: {
+                    type: 'apiKey',
+                    in: 'header',
+                    name: 'x-access-token',
+                },
+            },
+        },
+    },
+    apis:['./Routes/*.js']
+}
+const swaggerDocs = swaggerJsDoc(options);
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocs));
 // Connect to MongoDB
 connectDB();
 
@@ -44,6 +74,7 @@ app.use(cookieParser());
 //serve static files
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
+//  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // routes
 app.get('/',(req,res)=>{
     res.send('hello')

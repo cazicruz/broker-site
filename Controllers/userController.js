@@ -99,13 +99,17 @@ const doTask = async (req,res)=>{
     if(dotask===4){
         return res.status(400).json({msg:'insufficient balance'});
     }
-    const referalFunded = await userService.fundReferal(user.referer,7,dotask.amount);
-    const referalFundedTwo = await userService.fundReferal(user.referer_two, 4, dotask.amount);
-    if (!referalFunded ){
-        return res.status(500).json({msg:'Error funding referer'});
-    }
-    if(!referalFundedTwo){
-        return res.status(500).json({msg:'Error funding referer top link'});
+    if (user.referer){
+        const referalFunded = await userService.fundReferal(user.referer,7,dotask.amount);
+        if (!referalFunded ){
+            return res.status(404).json({msg:'Error finding referer,user funded'});
+        }
+        if(user.referer_two){
+            const referalFundedTwo = await userService.fundReferal(user.referer_two, 4, dotask.amount);
+            if(!referalFundedTwo){
+                return res.status(404).json({msg:'Error finding referer top link, user and referer funded'});
+            }
+        }
     }
     return res.status(200).json({
         msg:'Task done successfully',

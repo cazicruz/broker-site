@@ -57,7 +57,7 @@ const updateWithdrawal = async (_id, status) => {
         if(withdrawal.status === status){
             return 2;
         }
-        withdrawal.isCompleted = status === 'true';
+        withdrawal.isCompleted = (status === true || status === 'true') ? true :false;
         await withdrawal.save();
         return withdrawal;
     }catch(err){

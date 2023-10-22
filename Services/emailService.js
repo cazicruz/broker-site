@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const ApiError =require('../Utils/apiError')
 const fs = require('fs');
 
 
@@ -51,7 +52,7 @@ const sendOTP = (username, email) => {
 
 
 // sending mail to admin on request of withdrawal by client
-const sendWithdrawalRequest = ( email=null,withdrawalObj ) => {
+const sendWithdrawalRequest = async ( email=null,withdrawalObj ) => {
     const transport = nodemailer.createTransport({
         host: process.env.ADMIN_SMTP_SERVER,
         port: process.env.ADMIN_SMTP_PORT,
@@ -81,19 +82,13 @@ const sendWithdrawalRequest = ( email=null,withdrawalObj ) => {
         </html>
         `
     };
-    try{
-        transport.sendMail(mail_config, (err, result) =>{
-            if (err){
-                console.log("error sending withdrawal data to admin", err);
-                return;
-            }
-            console.log('Email sent successfully', result.response);
-            //return result
-        });
-        return (withdrawalObj);
-    }catch(err){
-        console.log("error sending withdrawal data to admin", err);
-        return;
+     try {
+        const result = await transport.sendMail(mail_config);
+        console.log('Email sent successfully', result);
+        return result.messageId;
+    } catch (err) {
+        console.log('Error sending withdrawal data to admin', err);
+        return null // Rethrow the error for the caller to handle
     }
 }
 

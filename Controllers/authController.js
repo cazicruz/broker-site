@@ -17,9 +17,9 @@ const register = async (req,res)=>{
     let referer 
     let refererUpline
     if(referer_code){
-        referer= userServices.getReferer(referer_code);
+        referer= await userServices.getReferer(referer_code);
         if(referer){
-            refererUpline = userService.getSecondUpliner(referer);
+            refererUpline = await userService.getSecondUpliner(referer);
         }
     }
     const refCode = referrerCode(username);

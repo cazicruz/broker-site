@@ -78,7 +78,7 @@ const updateWithdrawal = async (req,res)=>{
     if(!id){
         return res.status(400).json({ msg: 'missing route parameter ID' });
     }
-    if(!status || (status !== 'true' && status !== 'false')){
+    if(typeof status !== 'boolean'){
         return res.status(400).json({ msg: 'Status is required to be boolean' });
     }
     const withdrawal = await withdrawalService.updateWithdrawal(id,status);
