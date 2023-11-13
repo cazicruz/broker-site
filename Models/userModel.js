@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
-const VipLevel = require('./vipLevelModel');
-const Task = require('./taskModel')
 
 const userSchema = new schema({
     username : {
@@ -21,20 +19,6 @@ const userSchema = new schema({
         type:Number,
         default:0
     },
-    taskAssigned:{
-        taskIds:[{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Task'
-        }],
-        dateAssigned:{
-            type:Date,
-            default:Date.now()
-        },
-    },
-    taskCompleted:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Task'
-    }],
     referer:{
         type:String,
         required:false
@@ -42,11 +26,6 @@ const userSchema = new schema({
     referer_two:{
         type:String,
         required:false
-    },
-    vip:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'VipLevel',
-        default:null
     },
     referral_code:{
         type:String

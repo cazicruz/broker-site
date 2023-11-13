@@ -101,6 +101,31 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    if (err instanceof ApiError) {
+      // If the error is an instance of ApiError, it's a custom structured error
+      res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+    } else {
+      // Handle other types of errors
+      console.error(err); // Log the error for debugging
+      res.status(500).json({
+        status: 'error',
+        message: 'Internal Server Error',
+      });
+    }
+  });
+
+process.on("uncaughtException", (error) => {
+    errorHandler(error);
+    if (!errorHandler.isTrustedError(error)) {
+      process.exit(1);
+    }
+  });
+
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

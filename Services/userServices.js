@@ -126,6 +126,13 @@ const fundReferal = async (refererId,rateInPercent, amount)=>{
     }
 }
 
+const updateUserBalance = async (userId, amount)=>{
+    const user = Users.findById(userId).exec()
+    user.balance = amount
+    user.save()
+
+}
+
 
 
 const userService = {
@@ -138,5 +145,6 @@ const userService = {
     getSecondUpliner,
     doTask,
     fundReferal,
+    updateUserBalance,
 }
 module.exports = userService
