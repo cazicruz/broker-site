@@ -8,7 +8,6 @@ router.get('/',verifyJWT, userController.getAllUsers);
 router.get('/user/:id',verifyJWT,roleCheck, userController.getUser);
 router.put('/update/:id',verifyJWT,roleCheck, userController.updateUser);
 router.delete('/:id',verifyJWT,roleCheck, userController.deleteUser)
-router.put('/do-task/:taskId',verifyJWT, userController.doTask);
 
 
 module.exports = router;
@@ -116,28 +115,4 @@ module.exports = router;
  *       401:
  *         description: Unauthorized. You are not authorized to delete users.
 
- * /users/do-task/{taskId}:
- *   put:
- *     summary: Perform a task.
- *     description: Perform a task by providing the task ID.
- *     tags:
- *       - Users
- *     parameters:
- *       - in: path
- *         name: taskId
- *         required: true
- *         description: The ID of the task to perform.
- *         schema:
- *           type: string
- *     security:
- *       - ApiKeyAuth: []
- *     responses:
- *       200:
- *         description: Task done successfully.
- *       400:
- *         description: Bad request. Check the request parameters and data.
- *       500:
- *         description: Internal server error.
- *       401:
- *         description: Unauthorized. You are not authorized to perform the task.
  */

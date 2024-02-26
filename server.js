@@ -78,9 +78,7 @@ app.get('/',(req,res)=>{
     res.send('hello')
 });
 app.use('/api/auth', require('./Routes/auth.route'));
-app.use('/api/task', require('./Routes/task.route'));
 app.use('/api/users', require('./Routes/users.route'));
-app.use('/api/vip', require('./Routes/vip.route'))
 app.use('/api/payment', require('./Routes/payment.route'));
 // app.use('/api/auth', require('./routes/auth'));
 // app.use('/api/refresh', require('./routes/refresh'));
@@ -99,25 +97,26 @@ app.all('*', (req, res) => {
     }
 });
 
-app.use(errorHandler);
+app.use(async(err, req, res, next) =>{
+  errorHandler(err, res)});
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-    if (err instanceof ApiError) {
-      // If the error is an instance of ApiError, it's a custom structured error
-      res.status(err.statusCode).json({
-        status: err.status,
-        message: err.message,
-      });
-    } else {
-      // Handle other types of errors
-      console.error(err); // Log the error for debugging
-      res.status(500).json({
-        status: 'error',
-        message: 'Internal Server Error',
-      });
-    }
-  });
+// app.use((err, req, res, next) => {
+//     if (err instanceof ApiError) {
+//       // If the error is an instance of ApiError, it's a custom structured error
+//       res.status(err.statusCode).json({
+//         status: err.status,
+//         message: err.message,
+//       });
+//     } else {
+//       // Handle other types of errors
+//       console.error(err); // Log the error for debugging
+//       res.status(500).json({
+//         status: 'error',
+//         message: 'Internal Server Error',
+//       });
+//     }
+//   });
 
 process.on("uncaughtException", (error) => {
     errorHandler(error);

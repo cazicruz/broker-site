@@ -1,6 +1,5 @@
 const Users = require("../Models/userModel");
 const mongoose = require('mongoose');
-const Tasks = require('../Models/taskModel');
 
 
 
@@ -76,40 +75,6 @@ const getSecondUpliner = async(username)=>{
         return null
     }
 }
-const doTask = async (userId, taskId)=>{
-    
-    try{
-        const user = await Users.findById({_id:userId}).exec();
-        const task = await Tasks.findById({_id:taskId}).exec();
-        if(!user){
-            // user not found
-            return 1;
-        }
-        if(!task){
-            // task not found
-            return 2;
-        }
-        if(user.taskCompleted.includes(taskId)){
-            // task already completed
-            return 3;
-        }
-        if (user.balance < task.amount){
-            // insufficient balance
-            return 4;
-        }
-// start transaction
-        user.taskCompleted.push(taskId);
-        user.balance += (parseInt(task.amount) * 10)/100;
-        user.save();
-
-        // task completed
-        return task;
-
-    }catch(err){
-        console.log(err);
-        return null;
-    }
-}
 
 const fundReferal = async (refererId,rateInPercent, amount)=>{
     try{
@@ -143,7 +108,6 @@ const userService = {
     deleteUser,
     getReferer,
     getSecondUpliner,
-    doTask,
     fundReferal,
     updateUserBalance,
 }

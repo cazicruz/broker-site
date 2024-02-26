@@ -4,7 +4,7 @@ const fs = require('fs');
 
 
 
-const sendOTP = (username, email) => {
+const sendOTP = async (username, email) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     // create transport for nodemailer
     const transport = nodemailer.createTransport({
@@ -15,7 +15,7 @@ const sendOTP = (username, email) => {
             pass: process.env.ADMIN_MAIL_PASS,
         },
     });
-
+    transport.verify().then(()=> console.log('connected to email server')).catch(()=> console.log("error connecting to email server"))
     const mail_config = {
         from: process.env.ADMIN_MAIL,
         to: email,
@@ -32,15 +32,10 @@ const sendOTP = (username, email) => {
         </html>
         `
     };
+
     try{
-        transport.sendMail(mail_config, (err, result) =>{
-            if (err){
-                console.log("error sending otp", err);
-                return;
-            }
-            console.log('Email sent successfully', result.response);
-            
-        });
+        const result = await transport.sendMail(mail_config);
+        console.log('Email sent successfully', result);
         return otp;
     }catch(err){
         console.log("error sending otp", err);
@@ -88,7 +83,7 @@ const sendWithdrawalRequest = async ( email=null,withdrawalObj ) => {
         return result.messageId;
     } catch (err) {
         console.log('Error sending withdrawal data to admin', err);
-        return null // Rethrow the error for the caller to handle
+        return null  // Rethrow the error for the caller to handle
     }
 }
 

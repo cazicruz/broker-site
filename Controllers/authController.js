@@ -15,6 +15,7 @@ const register = async (req,res)=>{
             msg:'Username, password and email are required'});
     }
     let referer 
+    
     let refererUpline
     if(referer_code){
         referer= await userServices.getReferer(referer_code);
@@ -97,7 +98,7 @@ const forgotPass = async (req,res)=>{
     if(!user){
         return res.status(400).send('User not found')
     }
-    const otp = emailService.sendOTP(user.username,user.email);
+    const otp = await emailService.sendOTP(user.username,user.email);
     console.log(otp)
     if(!otp){
         return res.status(500).send('Error sending OTP')

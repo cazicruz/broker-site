@@ -73,49 +73,7 @@ const deleteUser = async (req, res)=>{
     });
 }
 
-const doTask = async (req,res)=>{
-    const {taskId} = req.params;
-    const userId = req.userId;
-    if(!taskId){
-        return res.status(400).json({msg:'missing route parameter ID'});
-    }
-    const user = userService.getUserById(userId);
-    if (!user){
-        return res.status(500).json({msg:'Error getting user'});
-    }
-    const dotask = await userService.doTask(userId, taskId);
-    if (!dotask){
-        return res.status(500).json({msg:'Error doing task'});
-    }
-    if(dotask===1){
-        return res.status(400).json({msg:'User not found'});
-    }
-    if(dotask===2){
-        return res.status(400).json({msg:'Task not found'});
-    }
-    if(dotask===3){
-        return res.status(400).json({msg:'User already did task'});
-    }
-    if(dotask===4){
-        return res.status(400).json({msg:'insufficient balance'});
-    }
-    if (user.referer){
-        const referalFunded = await userService.fundReferal(user.referer,7,dotask.amount);
-        if (!referalFunded ){
-            return res.status(404).json({msg:'Error finding referer,user funded'});
-        }
-        if(user.referer_two){
-            const referalFundedTwo = await userService.fundReferal(user.referer_two, 4, dotask.amount);
-            if(!referalFundedTwo){
-                return res.status(404).json({msg:'Error finding referer top link, user and referer funded'});
-            }
-        }
-    }
-    return res.status(200).json({
-        msg:'Task done successfully',
-        task:dotask
-    });
-}
+
 
 
 const userController = {
@@ -123,6 +81,5 @@ const userController = {
     getUser,
     updateUser,
     deleteUser,
-    doTask,
 }
 module.exports = userController

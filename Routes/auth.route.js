@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../Controllers/authController')
+const asyncHandler = require('express-async-handler')
 
-router.post('/register', authController.register)
-router.post('/login', authController.login)
-router.post('/refresh-token', authController.tokenRefresh)
-router.post('/forgot-password', authController.forgotPass)
+router.post('/register', asyncHandler(authController.register))
+router.post('/login', asyncHandler(authController.login))
+router.post('/refresh-token', asyncHandler(authController.tokenRefresh))
+router.post('/forgot-password', asyncHandler(authController.forgotPass))
 router.put('/reset-password', authController.resetPass)
 
 module.exports = router;

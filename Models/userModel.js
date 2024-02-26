@@ -19,6 +19,10 @@ const userSchema = new schema({
         type:Number,
         default:0
     },
+    ai_Plan:{
+        type: Boolean,
+        required:false
+    },
     referer:{
         type:String,
         required:false
