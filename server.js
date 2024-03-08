@@ -30,7 +30,7 @@ const options={
         },
         servers:[
             {
-                url:'https://broker-site.onrender.com'
+                url:'https://broker-site.onrender.com/api'
             }
         ],
         components: {
