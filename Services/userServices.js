@@ -23,7 +23,7 @@ const findUserByEmail = async (email)=>{
 
 const getUserById = async (id)=>{
     try {
-        const user = await Users.findById(id).exec();
+        const user = await Users.findById({_id:id}).exec();
         if(!user){
             return 1;
         }
