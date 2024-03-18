@@ -40,7 +40,7 @@ module.exports = router;
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
+ *         required: false
  *         description: The ID of the user to retrieve.
  *         schema:
  *           type: string
