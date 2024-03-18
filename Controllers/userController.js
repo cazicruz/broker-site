@@ -15,7 +15,10 @@ const getAllUsers = async (req, res)=>{
 const getUser = async (req, res)=>{
     const {id} = req.params;
     if(!id){
-        return res.status(400).json({msg:'missing route parameter ID'});
+        id=req.userId;
+        if(!id){
+            return res.status(400).json({msg:'missing route parameter ID'});
+        }
     }
     const user = await userService.getUserById(id);
     if(user===1){
