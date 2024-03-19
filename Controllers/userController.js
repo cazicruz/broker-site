@@ -13,7 +13,7 @@ const getAllUsers = async (req, res)=>{
 }
 
 const getUser = async (req, res)=>{
-    const {id} = req.params;
+    let {id} = req.params;
     if(!id){
         id=req.userId;
         if(!id){

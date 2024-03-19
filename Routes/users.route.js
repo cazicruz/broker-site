@@ -6,6 +6,7 @@ const userController = require('../Controllers/userController');
 
 router.get('/',verifyJWT, userController.getAllUsers);
 router.get('/user/:id',verifyJWT,roleCheck, userController.getUser);
+router.get('/user',verifyJWT,roleCheck, userController.getUser);
 router.put('/update/:id',verifyJWT,roleCheck, userController.updateUser);
 router.delete('/:id',verifyJWT,roleCheck, userController.deleteUser)
 
@@ -42,6 +43,26 @@ module.exports = router;
  *         name: id
  *         required: false
  *         description: The ID of the user to retrieve.
+ *         schema:
+ *           type: string
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: User retrieved successfully.
+ *       400:
+ *         description: Bad request. Check the request parameters and data.
+ *       500:
+ *         description: Internal server error.
+
+ * /users/user:
+ *   get:
+ *     summary: Get user by ID.
+ *     description: Get details of signed in user.
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - in: path
  *         schema:
  *           type: string
  *     security:

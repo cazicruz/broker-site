@@ -581,3 +581,7 @@
 20240113	14:57:15	bd86ed0b-aff0-4ddc-9649-67c09b8c5ced	POST	http://localhost:3001	/api/auth/forgot-password
 20240113	14:59:24	aae866c5-b960-46a3-b596-e4f07ad7abfa	PUT	http://localhost:3001	/api/auth/reset-password
 20240113	14:59:51	7eb51dc7-4fc9-452d-bf53-8dc4ef08220b	PUT	http://localhost:3001	/api/auth/reset-password
+20240319	07:28:47	926980de-328f-4fc7-b01d-1fac3dd3c560	GET	undefined	/api/users
+20240319	07:29:07	d3473fd4-c056-449e-9ec6-ad0ede85adb7	POST	http://127.0.0.1:3001	/api/auth/login
+20240319	07:31:59	bed6f068-9e16-4acc-a4dd-a1891b4840a3	GET	undefined	/api/users/user
+20240319	07:33:43	f51ec473-4636-4b4c-8f1d-87fca97c3a14	GET	undefined	/api/users/user
