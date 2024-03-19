@@ -8,6 +8,7 @@ router.get('/',verifyJWT, userController.getAllUsers);
 router.get('/user/:id',verifyJWT,roleCheck, userController.getUser);
 router.get('/user',verifyJWT,roleCheck, userController.getUser);
 router.put('/update/:id',verifyJWT,roleCheck, userController.updateUser);
+router.put('/update/balance/:id',verifyJWT,roleCheck, userController.updateBalance);
 router.delete('/:id',verifyJWT,roleCheck, userController.deleteUser)
 
 
@@ -106,6 +107,39 @@ module.exports = router;
  *     responses:
  *       200:
  *         description: User updated successfully.
+ *       400:
+ *         description: Bad request. Check the request parameters and data.
+ *       500:
+ *         description: Internal server error.
+ 
+ * /users/update/balance/{id}:
+ *   put:
+ *     summary: Update user balance by ID.
+ *     description: Update a user by providing their user ID and the new balance.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the user to update.
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 description: The email to update to.
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: User balance updated successfully.
  *       400:
  *         description: Bad request. Check the request parameters and data.
  *       500:

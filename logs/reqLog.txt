@@ -585,3 +585,13 @@
 20240319	07:29:07	d3473fd4-c056-449e-9ec6-ad0ede85adb7	POST	http://127.0.0.1:3001	/api/auth/login
 20240319	07:31:59	bed6f068-9e16-4acc-a4dd-a1891b4840a3	GET	undefined	/api/users/user
 20240319	07:33:43	f51ec473-4636-4b4c-8f1d-87fca97c3a14	GET	undefined	/api/users/user
+20240319	08:02:50	e1afa972-d82b-401f-9b3a-86c9e1e58e8f	POST	http://127.0.0.1:3001	/api/auth/login
+20240319	08:03:21	4c570ed4-a1f7-4fe3-ae45-0d5e8f9bd6e5	GET	undefined	/api/users
+20240319	08:13:30	a8ef7e98-1168-41d9-9b2a-4ee142443591	PUT	http://127.0.0.1:3001	/api/users/update/balance/65f7c772aac6ea129d7d05bc
+20240319	08:13:47	f4053722-37b9-4826-a138-a38e103aca21	POST	http://127.0.0.1:3001	/api/auth/login
+20240319	08:14:09	a64f159e-b2cc-494e-a662-f4ae79067736	PUT	http://127.0.0.1:3001	/api/users/update/balance/65f7c772aac6ea129d7d05bc
+20240319	08:19:40	72359782-f941-46c8-8a18-30b1d65cbb48	POST	http://127.0.0.1:3001	/api/auth/login
+20240319	08:21:00	fc137181-6ad6-4ea2-a1cf-22c039248e59	PUT	http://127.0.0.1:3001	/api/users/update/balance/65f7c772aac6ea129d7d05bc
+20240319	08:24:47	fd408fec-c5df-437e-9a70-05c777a9d18e	PUT	http://127.0.0.1:3001	/api/users/update/balance/65f7c772aac6ea129d7d05bc
+20240319	08:25:40	f4e24170-8425-4789-8db4-c7672b9b65be	GET	undefined	/api/users/user/65f7c772aac6ea129d7d05bc
+20240319	08:26:59	c75c7291-1f54-49aa-a3c7-f60d4ae016a3	PUT	http://127.0.0.1:3001	/api/users/update/balance/65f7c772aac6ea129d7d05bc

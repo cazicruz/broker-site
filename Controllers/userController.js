@@ -57,6 +57,30 @@ const updateUser = async (req, res)=>{
         user:user
     });
 }
+const updateBalance = async (req, res)=>{
+    const {id} = req.params;
+    const {amount} = req.body;
+    if(req.role !== 'admin'){
+        return res.status(400).json({msg:'You cannot update this user balance'});
+    }
+    if(!id){
+        return res.status(400).json({msg:'missing route parameter ID'});
+    }
+    if (!amount){
+        return res.status(400).json({msg:'Amount is required'});
+    }
+    let userObj ={}
+    userObj.balance = amount;
+
+    const user = await userService.updateUser(id, userObj);
+    if(!user){
+        return res.status(500).json({msg:'Error updating user'});
+    }
+    return res.status(200).json({
+        msg:'User balance updated successfully',
+        user:user
+    });
+}
 
 const deleteUser = async (req, res)=>{
     const {id} = req.params;
@@ -83,6 +107,7 @@ const userController = {
     getAllUsers,
     getUser,
     updateUser,
+    updateBalance,
     deleteUser,
 }
 module.exports = userController
