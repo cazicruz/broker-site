@@ -4,6 +4,9 @@ const userService = require('../Services/userServices');
 
 
 const getAllUsers = async (req, res)=>{
+    if(req.role !== 'admin'){
+        return res.status(400).json({msg:'access denied'});
+    }
     try {
         const users = await Users.find().exec();
         return res.status(200).json(users);

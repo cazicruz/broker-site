@@ -30,7 +30,7 @@ const options={
         },
         servers:[
             {
-                url:'https://broker-site.onrender.com/api'
+                url:'http://127.0.0.1:3001/api'
             }
         ],
         components: {
@@ -80,6 +80,7 @@ app.get('/',(req,res)=>{
 app.use('/api/auth', require('./Routes/auth.route'));
 app.use('/api/users', require('./Routes/users.route'));
 app.use('/api/payment', require('./Routes/payment.route'));
+app.use('/api/wallet-address', require('./Routes/wallet.route'));
 // app.use('/api/auth', require('./routes/auth'));
 // app.use('/api/refresh', require('./routes/refresh'));
 // app.use('/api/logout', require('./routes/logout'));

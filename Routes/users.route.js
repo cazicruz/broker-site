@@ -4,7 +4,7 @@ const verifyJWT = require('../Middleware/verifyJWT');
 const roleCheck = require('../Middleware/roleCheck');
 const userController = require('../Controllers/userController');
 
-router.get('/',verifyJWT, userController.getAllUsers);
+router.get('/',verifyJWT,roleCheck, userController.getAllUsers);
 router.get('/user/:id',verifyJWT,roleCheck, userController.getUser);
 router.get('/user',verifyJWT,roleCheck, userController.getUser);
 router.put('/update/:id',verifyJWT,roleCheck, userController.updateUser);
