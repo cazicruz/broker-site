@@ -64,7 +64,7 @@ const sendWithdrawalRequest = async ( email=null,withdrawalObj ) => {
         html: `<!DOCTYPE html>
         <html>
           <head>
-            <title> ${process.env.NAME_OF_APP} OTP Email</title>
+            <title> ${process.env.NAME_OF_APP} Withdrawal Request Email</title>
           </head>
           <body>
             <h2 style="align-text:center; background:fff"> Urgent !!!</h2>
@@ -114,9 +114,10 @@ const sendDepositRequest = (depositObj,file, email=null ) => {
             <h2 style="align-text:center; background:fff"> Urgent!!!! </h2>
             <h1>Dear Admin, a new Deposit has been initiated with details:</h1>
             <h2>Amount: ${depositObj.amount}</h2>
-            <h2>Sender Address: ${depositObj.senderEmail}</h2>
-            <h2>Sender Id: ${depositObj.senderId}</h2>
-            <h2>transaction:${depositObj.transaction}</h2>
+            <h2>Sender Mail: ${depositObj.senderEmail}</h2>
+            <h2>Sender Id: ${depositObj.userId}</h2>
+            <h2>transaction:${depositObj.ref}</h2>
+            <h2>transaction id:${depositObj.transactionId}</h2>
           </body>
         </html>
         `,

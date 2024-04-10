@@ -14,8 +14,8 @@ const growBalance = async ()=>{
                 user.balance += user.balance * 0.1;
             }
             await userService.updateUserBalance(user.id, user.balance)
+            console.log('user balances updated successfully ')
         }
-        console.log('user balances updated successfully ')
     }catch(err){
         console.error(err)
     }
@@ -37,3 +37,4 @@ const growBalance = async ()=>{
 // }
 
 cron.schedule('0 0 * * 1-6', growBalance);
+module.exports= growBalance;

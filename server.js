@@ -17,6 +17,8 @@ const {multerConfig} = require('./Config/multerConfig');
 const ApiError = require('./Utils/apiError');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc')
+const cron = require('node-cron');
+const growBalance = require('./cronJob/cronJob')
 //multer config
 const upload = multer({storage: multerConfig});
 
@@ -30,7 +32,7 @@ const options={
         },
         servers:[
             {
-                url:'https://broker-site.onrender.com/api'
+                url:'http://127.0.0.1:3001/api'
             }
         ],
         components: {
@@ -81,6 +83,7 @@ app.use('/api/auth', require('./Routes/auth.route'));
 app.use('/api/users', require('./Routes/users.route'));
 app.use('/api/payment', require('./Routes/payment.route'));
 app.use('/api/wallet-address', require('./Routes/wallet.route'));
+app.use('/api/transactions', require('./Routes/transaction.route'));
 // app.use('/api/auth', require('./routes/auth'));
 // app.use('/api/refresh', require('./routes/refresh'));
 // app.use('/api/logout', require('./routes/logout'));
@@ -129,4 +132,5 @@ process.on("uncaughtException", (error) => {
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    cron.schedule('0 0 * * 1-6', growBalance);
 });

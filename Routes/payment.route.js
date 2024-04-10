@@ -6,16 +6,18 @@ const rechargeController = require('../Controllers/rechargeController');
 const multer = require('multer');
 const roleCheck = require('../Middleware/roleCheck');
 const {multerConfig} = require('../Config/multerConfig');
+const asyncHandler = require('express-async-handler')
+
 
 //multer config
 const upload = multer({storage: multerConfig});
 
 
-router.post('/account',verifyJWT,upload.single('newFile'), rechargeController.accountRecharge);
-router.get('/recharge/:id',verifyJWT,roleCheck, rechargeController.getRecharge);
-router.post('/withdraw',verifyJWT, withdrawalController.createWithdrawal);
-router.get('/withdraw/:id',verifyJWT,roleCheck, withdrawalController.getWithdrawal);
-router.put('/withdraw/update/:id', verifyJWT,roleCheck, withdrawalController.updateWithdrawal);
+router.post('/account',verifyJWT,upload.single('newFile'), asyncHandler(rechargeController.accountRecharge));
+router.get('/recharge/:id',verifyJWT,roleCheck,asyncHandler(rechargeController.getRecharge));
+router.post('/withdraw',verifyJWT, asyncHandler(withdrawalController.createWithdrawal));
+router.get('/withdraw/:id',verifyJWT,roleCheck, asyncHandler(withdrawalController.getWithdrawal));
+router.put('/withdraw/update/:id', verifyJWT,roleCheck, asyncHandler(withdrawalController.updateWithdrawal));
 
 
 module.exports = router;
