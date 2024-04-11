@@ -26,13 +26,13 @@ const options={
     definition:{
         openapi:'3.0.0',
         info:{
-            title:'Task MLM Api',
-            version:'1.0.0',
-            description:'Task MLM Api'
+            title:'IC Marketing Api',
+            version:'1.2.0',
+            description:'Trading Api'
         },
         servers:[
             {
-                url:'http://127.0.0.1:3001/api'
+                url:'https://broker-site.onrender.com/api'
             }
         ],
         components: {
