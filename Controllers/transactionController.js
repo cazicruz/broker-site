@@ -1,5 +1,6 @@
 const emailService = require('../Services/emailService');
 const Users = require('../Models/userModel');
+const Transactions = require('../Models/transactionModel')
 const transactionService = require('../Services/transactionService');
 const {sendDepositRequest} = require('../Services/emailService');
 const userService = require('../Services/userServices');
@@ -193,6 +194,56 @@ const getDepositByUser = async (req, res) => {
     })
 }
 
+const withdrawProfit = async (req, res) => {
+    const {id} = req.params
+    if(id !== req.userId && req.role !== "admin"){
+        return res.status(404).json({msg:'unauthorized'})
+    }
+    const user = await Users.findById(id).exec();
+    const profit = user.profit
+    user.balance += user.profit;
+    user.profit=0;
+    user.save();
+    const transaction = new Transactions({
+        userId:id,
+        amount:profit,
+        type:'investment',
+        status:'completed',
+        ref:'profit',
+    })
+    transaction.save();
+
+    return res.status(200).json({
+        msg:'profit withdrawn',
+        transaction
+    })
+
+}
+
+const fundUserProfit = async (req,res)=>{
+    const {id} = req.params;
+    const {amount}= req.body
+    if(req.role !== "admin"){
+        return res.status(404).json({msg:'admin required'})
+    }
+    if(typeof amount !== 'number'){
+        return res.status(404).json({msg: 'amount must be a number'})
+    }
+    const user = await Users.findById(id).exec();
+    user.profit = amount;
+    user.save()
+    // const transaction = new Transactions({
+    //     userId:id,
+    //     amount:amount,
+    //     type:'investment',
+    //     status:'completed',
+    //     ref:'profit',
+    // })
+    return res.status(200).json({msg:'User profit added successfully',
+user});
+
+}
+
 const transactionController = {
     accountRecharge,
     createWithdrawal,
@@ -201,7 +252,9 @@ const transactionController = {
     deleteTransactionById,
     updateTransactionById,
     getWithdrawalByUser,
-    getDepositByUser
+    getDepositByUser,
+    withdrawProfit,
+    fundUserProfit
 
 }
 

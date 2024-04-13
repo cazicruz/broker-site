@@ -19,6 +19,8 @@ router.get('/deposits', verifyJWT, asyncHandler(transactionController.getDeposit
 router.get('/', verifyJWT, asyncHandler(transactionController.getUserTransactions));
 router.get('/:id', verifyJWT, roleCheck, asyncHandler(transactionController.getTransactionById));
 router.delete('/delete/:id', verifyJWT, roleCheck, asyncHandler(transactionController.deleteTransactionById));
+router.post('withdrawal/profit/:id',verifyJWT,roleCheck, asyncHandler(transactionController.withdrawProfit));
+router.put('fund/profit/:id',verifyJWT,roleCheck, asyncHandler(transactionController.fundUserProfit));
 
 module.exports = router;
 
@@ -237,6 +239,69 @@ module.exports = router;
  *         description: Successful operation. Returns the deleted transaction.
  *       '400':
  *         description: Bad request. ID is missing.
+ *       '500':
+ *         description: Internal server error.
+ */
+
+/**
+ * @swagger
+ * /transactions/withdrawal/profit/{id}:
+ *   post:
+ *     summary: Credits user from investment by ID
+ *     description: searches for user by  ID and moves funds to user balance from investment account.
+ *     tags: [Transactions]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the user to credit
+ *     responses:
+ *       '200':
+ *         description: Successful operation. Returns the deposit transaction.
+ *       '400':
+ *         description: Bad request. ID is missing.
+ *       '500':
+ *         description: Internal server error.
+ */
+
+/**
+ * @swagger
+ * /transactions/fund/profit/{id}:
+ *   put:
+ *     summary: add profits into user investment wallet
+ *     description: updates user profile with profit.
+ *     tags: [Transactions]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the user to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 description: value to add to user wallet.
+ *                 example: 10
+ *             required:
+ *               - status
+ *     responses:
+ *       '200':
+ *         description: User profit added successfully.
+ *       '400':
+ *         description: Bad request. ID or status is missing.
  *       '500':
  *         description: Internal server error.
  */

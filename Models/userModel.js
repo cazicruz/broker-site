@@ -19,9 +19,14 @@ const userSchema = new schema({
         type:Number,
         default:0
     },
-    ai_Plan:{
-        type: Boolean,
-        required:false
+    plan:{
+        type:String,
+        enum:['armature', 'advanced', 'professional'],
+        default:'armature'
+    },
+    profit:{
+        type:Number,
+        default:0
     },
     referer:{
         type:String,

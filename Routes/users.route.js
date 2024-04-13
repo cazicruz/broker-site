@@ -135,6 +135,10 @@ module.exports = router;
  *               amount:
  *                 type: number
  *                 description: The email to update to.
+ *               plan:
+ *                 type: string
+ *                 description: the plan to update a user to.
+ *                 example: professional
  *     security:
  *       - ApiKeyAuth: []
  *     responses:
