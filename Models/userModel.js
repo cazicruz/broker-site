@@ -21,8 +21,8 @@ const userSchema = new schema({
     },
     plan:{
         type:String,
-        enum:['armature', 'advanced', 'professional'],
-        default:'armature'
+        enum:['amateur', 'advanced', 'professional'],
+        required:false
     },
     profit:{
         type:Number,
