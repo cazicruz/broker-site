@@ -200,6 +200,7 @@ const withdrawProfit = async (req, res) => {
         return res.status(404).json({msg:'unauthorized'})
     }
     const user = await Users.findById(id).exec();
+    if (!user){return res.status(404).json({msg:'error getting user'})}
     const profit = user.profit
     user.balance += user.profit;
     user.profit=0;
@@ -230,6 +231,8 @@ const fundUserProfit = async (req,res)=>{
         return res.status(404).json({msg: 'amount must be a number'})
     }
     const user = await Users.findById(id).exec();
+    if (!user){return res.status(404).json({msg:'error getting user'})}
+
     user.profit = amount;
     user.save()
     // const transaction = new Transactions({

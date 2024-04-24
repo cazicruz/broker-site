@@ -19,8 +19,8 @@ router.get('/deposits', verifyJWT, asyncHandler(transactionController.getDeposit
 router.get('/', verifyJWT, asyncHandler(transactionController.getUserTransactions));
 router.get('/:id', verifyJWT, roleCheck, asyncHandler(transactionController.getTransactionById));
 router.delete('/delete/:id', verifyJWT, roleCheck, asyncHandler(transactionController.deleteTransactionById));
-router.post('withdrawal/profit/:id',verifyJWT,roleCheck, asyncHandler(transactionController.withdrawProfit));
-router.put('fund/profit/:id',verifyJWT,roleCheck, asyncHandler(transactionController.fundUserProfit));
+router.post('/withdrawal/profit/:id',verifyJWT,roleCheck, asyncHandler(transactionController.withdrawProfit));
+router.put('/fund/profit/:id',verifyJWT,roleCheck, asyncHandler(transactionController.fundUserProfit));
 
 module.exports = router;
 
