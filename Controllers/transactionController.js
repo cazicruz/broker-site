@@ -65,7 +65,7 @@ const createWithdrawal = async (req, res) => {
     }
     if(user.balance < amount){
         console.log(user.balance, amount)
-        return res.status(400).json({ msg: 'Insufficient balance' });
+        return res.status(400).json({ msg: 'Insufficient balance 1' });
     }
     const withdrawalObj = {
         amount: amount,
