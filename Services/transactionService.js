@@ -1,4 +1,5 @@
 const Transaction = require('../Models/transactionModel');
+const Users = require('../Models/userModel');
 
 
 const createRechargeTransaction = async (transactionObj)=>{
