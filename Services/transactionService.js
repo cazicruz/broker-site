@@ -74,7 +74,7 @@ const updateTransactionById = async (id,status)=>{
         const transaction = await Transaction.findByIdAndUpdate
         (id,{status:status},{new:true}).exec();
         if(transaction){
-            const user = Users.findById(transaction.userId).exec();
+            const user = await Users.findById(transaction.userId).exec();
             if(status === "completed"){
                 user.balance += transaction.amount;
                 user.save();
