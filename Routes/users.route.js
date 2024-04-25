@@ -173,5 +173,4 @@ module.exports = router;
  *         description: Internal server error.
  *       401:
  *         description: Unauthorized. You are not authorized to delete users.
-
  */
