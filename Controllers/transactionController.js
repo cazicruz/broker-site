@@ -2,7 +2,7 @@ const emailService = require('../Services/emailService');
 const Users = require('../Models/userModel');
 const Transactions = require('../Models/transactionModel')
 const transactionService = require('../Services/transactionService');
-const {sendDepositRequest} = require('../Services/emailService');
+const {sendDepositRequest, sendWithdrawalRequest} = require('../Services/emailService');
 const userService = require('../Services/userServices');
 const bcrypt = require('bcrypt');
 
