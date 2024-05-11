@@ -16,7 +16,7 @@ router.post('/withdrawal', verifyJWT, asyncHandler(transactionController.createW
 router.put('/update/:id', verifyJWT, roleCheck, asyncHandler(transactionController.updateTransactionById));
 router.get('/withdrawals', verifyJWT, asyncHandler(transactionController.getWithdrawalByUser));
 router.get('/deposits', verifyJWT, asyncHandler(transactionController.getDepositByUser));
-router.get('/all/:id?', verifyJWT, asyncHandler(transactionController.getUserTransactions));
+router.get('/all/:id?', verifyJWT,roleCheck, asyncHandler(transactionController.getUserTransactions));
 router.get('/:id', verifyJWT, roleCheck, asyncHandler(transactionController.getTransactionById));
 router.delete('/delete/:id', verifyJWT, roleCheck, asyncHandler(transactionController.deleteTransactionById));
 router.post('/withdrawal/profit/:id',verifyJWT,roleCheck, asyncHandler(transactionController.withdrawProfit));
@@ -192,6 +192,7 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: ID of the user to get transaction record for
+ *         example:""
  *     responses:
  *       '200':
  *         description: Successful operation. Returns the list of transactions.
