@@ -96,7 +96,13 @@ const createWithdrawal = async (req, res) => {
 }
 
 const getUserTransactions = async (req, res) => {
-    const {id} = req.params ? req.params.id : req.userId;
+    let {id} = req.params;
+    if(req.userId !==id && req.role !== 'admin'){
+        return res.status(400).json({msg:'You cannot update this user'});
+    }
+    if(!id){
+        id = req.userId;
+    }
     const transactions = await transactionService.getTransactionsByUserId(id);
     if (!transactions) {
         return res.status(500).json({ msg: 'Error getting transactions' });
