@@ -191,8 +191,7 @@ module.exports = router;
  *         name: id
  *         schema:
  *           type: string
- *         required: false
- *         description: ID of the user to credit
+ *         description: ID of the user to get transaction record for
  *     responses:
  *       '200':
  *         description: Successful operation. Returns the list of transactions.
