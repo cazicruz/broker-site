@@ -96,7 +96,7 @@ const createWithdrawal = async (req, res) => {
 }
 
 const getUserTransactions = async (req, res) => {
-    let {id} = req.params;
+    let {id} = req.params.id;
     if(id && req.role !== 'admin'){
         return res.status(400).json({msg:"You cannot get this user's transactions. must be an admin"+id});
     }
