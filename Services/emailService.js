@@ -74,7 +74,7 @@ const welcomeMail = async (username, email) => {
           <body>
             <div class="container">
               <div class="header">
-                <img src="https://megat.onrender.com/public/images/Logo.png" alt="${process.env.NAME_OF_APP}" />
+                <img src="https://broker-site.onrender.com/public/images/Logo.png" alt="${process.env.NAME_OF_APP}" />
               </div>
               <h3>Hurray!! ${username},</h3>
               <p>
