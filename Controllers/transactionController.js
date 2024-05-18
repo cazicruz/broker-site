@@ -59,8 +59,7 @@ const createWithdrawal = async (req, res) => {
     if (!user) {
         return res.status(400).json({ msg: 'server error' });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    if (password!==user.password) {
         return res.status(400).json({ msg: 'Invalid credentials' });
     }
     if(user.balance < amount){
@@ -85,7 +84,56 @@ const createWithdrawal = async (req, res) => {
     else if (withdrawal === 2) {
         return res.status(400).json({ msg: 'Insufficient balance' });
     }
-    const result = sendWithdrawalRequest(user.email,withdrawalObj );
+    const result = await sendWithdrawalRequest(user.email,withdrawalObj );
+    if(!result){
+        return res.status(500).json({ msg: 'Error sending email' });
+    }
+    return res.status(200).json({
+        msg: 'Withdrawal created successfully',
+        withdrawal: withdrawal
+    });
+}
+
+const createBankWithdrawal = async (req, res) => {
+    const { amount, password, bankName,bankAccountNumber,bankAccountName,routingNumber} = req.body;
+    const userId = req.userId;
+
+    if (!amount || !receiverAddress || !password) {
+        return res.status(400).json({ msg: 'Please enter all fields' });
+    }
+    const user = await  userService.getUserById(userId);
+    if(user ===1){
+        return res.status(400).json({ msg: 'User does not exist' });
+    }
+    if (!user) {
+        return res.status(400).json({ msg: 'server error' });
+    }
+    if (password!==user.password) {
+        return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+    if(user.balance < amount){
+        console.log(user.balance, amount)
+        return res.status(400).json({ msg: 'Insufficient balance' });
+    }
+    const withdrawalObj = {
+        amount: amount,
+        userId,
+        receiverAddress: `bankName:${bankName},bankAccountNumber:${bankAccountNumber},bankAccountName:${bankAccountName},routingNumber:${routingNumber}`,
+        ref: 'outbound- localbank',
+        type: 'withdrawal',
+        receiverEmail:user.email,
+    };
+    const withdrawal = await transactionService.createWithdrawalTransaction(withdrawalObj);
+    if (!withdrawal) {
+        return res.status(500).json({ msg: 'Error creating withdrawal' });
+    }
+    else if (withdrawal === 1) {
+        return res.status(400).json({ msg: 'User not found' });
+    }
+    else if (withdrawal === 2) {
+        return res.status(400).json({ msg: 'Insufficient balance' });
+    }
+    const result = await sendWithdrawalRequest(user.email,withdrawalObj );
     if(!result){
         return res.status(500).json({ msg: 'Error sending email' });
     }
@@ -97,7 +145,7 @@ const createWithdrawal = async (req, res) => {
 
 const getUserTransactions = async (req, res) => {
     let id = req.params.id;
-    if(id && id.length >= 5 && id.length <= 20 && req.role !== 'admin'){
+    if(id && id.length >= 5 && req.role !== 'admin'){
         return res.status(400).json({msg:"You cannot get this user's transactions. must be an admin"});
     }
     if(!id){
@@ -257,6 +305,7 @@ user});
 const transactionController = {
     accountRecharge,
     createWithdrawal,
+    createBankWithdrawal,
     getUserTransactions,
     getTransactionById,
     deleteTransactionById,

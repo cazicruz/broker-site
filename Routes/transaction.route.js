@@ -13,6 +13,7 @@ const upload = multer({storage: multerConfig});
 
 router.post('/recharge', verifyJWT,upload.single('newFile'), asyncHandler(transactionController.accountRecharge));
 router.post('/withdrawal', verifyJWT, asyncHandler(transactionController.createWithdrawal));
+router.post('/bank-withdrawal', verifyJWT, asyncHandler(transactionController.createBankWithdrawal));
 router.put('/update/:id', verifyJWT, roleCheck, asyncHandler(transactionController.updateTransactionById));
 router.get('/withdrawals', verifyJWT, asyncHandler(transactionController.getWithdrawalByUser));
 router.get('/deposits', verifyJWT, asyncHandler(transactionController.getDepositByUser));
@@ -94,6 +95,52 @@ module.exports = router;
  *               password:
  *                 type: string
  *                 description: The user's password for authentication.
+ *             required:
+ *               - amount
+ *               - receiverAddress
+ *               - password
+ *     responses:
+ *       '200':
+ *         description: Withdrawal successful.
+ *       '400':
+ *         description: Bad request. One or more required fields are missing or invalid.
+ *       '500':
+ *         description: Internal server error.
+ */
+/**
+ * @swagger
+ * /transactions/bank-withdrawal:
+ *   post:
+ *     summary: Create a withdrawal to bank account
+ *     description: Initiates a withdrawal from the user's account to the specified bank account.
+ *     tags: [Transactions]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 description: The amount to withdraw.
+ *               bankName:
+ *                 type: string
+ *                 description: The bank to withdraw to.
+ *               password:
+ *                 type: string
+ *                 description: The user's password for authentication.
+ *               bankAccountNumber:
+ *                 type: string
+ *                 description: The user's local banks account number.
+ *               bankAccountName:
+ *                 type: string
+ *                 description: The user's local banks account name.
+ *               routingNumber:
+ *                 type: string
+ *                 description: The user's local banks routing Number.
  *             required:
  *               - amount
  *               - receiverAddress
