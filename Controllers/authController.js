@@ -34,6 +34,7 @@ const register = async (req,res)=>{
     };
     const newUser = await authService.register(userObj);
     if(newUser){
+        const result = await emailService.welcomeMail(newUser.username,newUser.email);
         return res.status(200).json(newUser);
     }
     return res.status(400).json({
