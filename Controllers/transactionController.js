@@ -98,8 +98,8 @@ const createBankWithdrawal = async (req, res) => {
     const { amount, password, bankName,bankAccountNumber,bankAccountName,routingNumber} = req.body;
     const userId = req.userId;
 
-    if (!amount || !receiverAddress || !password) {
-        return res.status(400).json({ msg: 'Please enter all fields' });
+    if (!amount || !bankName ||!bankAccountNumber ||!bankAccountName ||!routingNumber || !password) {
+        return res.status(400).json({ msg: 'Please enter all fields,routingNumber,amount, password, bankName,bankAccountNumber,bankAccountName,' });
     }
     const user = await  userService.getUserById(userId);
     if(user ===1){
