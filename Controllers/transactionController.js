@@ -59,7 +59,9 @@ const createWithdrawal = async (req, res) => {
     if (!user) {
         return res.status(400).json({ msg: 'server error' });
     }
-    if (password!==user.password) {
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match){
         return res.status(400).json({ msg: 'Invalid credentials' });
     }
     if(user.balance < amount){
@@ -108,7 +110,9 @@ const createBankWithdrawal = async (req, res) => {
     if (!user) {
         return res.status(400).json({ msg: 'server error' });
     }
-    if (password!==user.password) {
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match){
         return res.status(400).json({ msg: 'Invalid credentials' });
     }
     if(user.balance < amount){
